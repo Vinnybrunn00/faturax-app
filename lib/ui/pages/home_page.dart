@@ -71,7 +71,7 @@ class HomePage extends StatelessWidget {
 
               if (docs.isEmpty) {
                 return SliverBoxError(
-                  widget: Text('Nenhuma compra encontrado'),
+                  widget: Text('Nenhuma compra encontrada'),
                 );
               }
 

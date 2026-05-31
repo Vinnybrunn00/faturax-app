@@ -1,5 +1,3 @@
-
-
 import 'package:faturax/controller/internet_tester_controller.dart';
 import 'package:faturax/models/auth/auth_model.dart';
 import 'package:faturax/models/items/items_model.dart';

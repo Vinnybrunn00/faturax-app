@@ -72,7 +72,7 @@ class BoxInfoBillings extends StatelessWidget {
                 spacing: 10,
                 children: [
                   Text(
-                    'Credito',
+                    'Crédito',
                     style: TextStyle(color: AppColor.whiteColor, fontSize: 14),
                   ),
                   Image.asset('assets/icons/mastercard.png', width: 35),

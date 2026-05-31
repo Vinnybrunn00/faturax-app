@@ -112,13 +112,13 @@ class NewCompras {
                           ],
                         ),
                     ],
-
                     Row(
                       children: [
                         Transform.scale(
                           alignment: Alignment.centerLeft,
                           scale: 1,
                           child: Checkbox(
+                            activeColor: AppColor.pupleColor,
                             value: productModel.fixed,
                             onChanged: (bool? value) {
                               productModel.changeButton(value);
@@ -134,7 +134,7 @@ class NewCompras {
                           Navigator.pop(context);
                           _utils.showMessageInfo(
                             ctxz,
-                            message: 'Os Campos não pode estar vazios.',
+                            message: 'Os Campos não podem estar vazios.',
                           );
                           return;
                         }

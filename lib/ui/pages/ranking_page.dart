@@ -21,11 +21,12 @@ class RankingPage extends StatelessWidget {
           builder: (context, value, child) {
             return Text(
               newProduct.convertCentInReais(value.price),
-              style: TextStyle(),
+              style: TextStyle(color: AppColor.whiteColor),
             );
           },
         ),
-        backgroundColor: AppColor.whiteColor,
+        backgroundColor: AppColor.pupleColor,
+        iconTheme: IconThemeData(color: AppColor.whiteColor),
       ),
       body: Column(
         children: [
