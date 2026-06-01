@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:faturax/constants/constants_values.dart';
 import 'package:faturax/models/product/product_model.dart';
 import 'package:faturax/ui/widgets/theme_data_picker.dart';
 import 'package:faturax/utils/utils.dart';
@@ -13,7 +15,7 @@ class NewProduct with ChangeNotifier {
   }
 
   String _initialDate = DateFormat(
-    "MMMM 'de' yyyy",
+    formatDatePt,
     'pt_BR',
   ).format(DateTime.now());
 
@@ -160,10 +162,10 @@ class NewProduct with ChangeNotifier {
 
   Future<void> selectDate(BuildContext context) async {
     final DateTime? showDataPicker = await showDatePicker(
-      barrierDismissible: true,
       context: context,
+      barrierDismissible: true,
       initialEntryMode: DatePickerEntryMode.calendarOnly,
-      firstDate: DateTime.now(),
+      firstDate: DateTime(1500),
       lastDate: DateTime(2500),
       locale: const Locale('pt', 'BR'),
       builder: (context, child) {
@@ -173,7 +175,7 @@ class NewProduct with ChangeNotifier {
 
     if (showDataPicker != null) {
       final String format = DateFormat(
-        "MMMM 'de' yyyy",
+        formatDatePt,
         'pt_BR',
       ).format(showDataPicker);
 

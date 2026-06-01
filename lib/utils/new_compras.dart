@@ -1,5 +1,6 @@
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:faturax/constants/constants_color.dart';
+import 'package:faturax/constants/constants_values.dart';
 import 'package:faturax/models/product/new_product.dart';
 import 'package:faturax/models/product/product_model.dart';
 import 'package:faturax/ui/components/inputs/input_compras.dart';
@@ -101,7 +102,7 @@ class NewCompras {
                                     Text(
                                       newProduct.date ??
                                           DateFormat(
-                                            "MMMM 'de' yyyy",
+                                            formatDatePt,
                                             'pt_BR',
                                           ).format(DateTime.now()),
                                     ),
@@ -169,7 +170,7 @@ class NewCompras {
     ).then((_) {
       productModel.reset();
       newProduct.setDate = DateFormat(
-        "MMMM 'de' yyyy",
+        formatDatePt,
         'pt_BR',
       ).format(DateTime.now());
     });

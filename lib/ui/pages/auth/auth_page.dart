@@ -50,113 +50,251 @@ class AuthPage extends StatelessWidget {
     final AuthModel provider = Provider.of<AuthModel>(context);
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: AppColor.backgroundColorWhite,
-      body: SizedBox.expand(
+      body: Container(
+        height: size.height,
+        width: size.width,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xFF111540), Color(0xFF2B3699), Color(0xff4150F7)],
+            stops: [0.0, 0.5, 1.0],
+          ),
+        ),
         child: Stack(
-          alignment: AlignmentGeometry.center,
+          alignment: .center,
           children: [
-            AnimatedContainer(
-              duration: Duration(milliseconds: 350),
-              height: provider.isLogin ? size.height * .39 : size.height * .49,
-              width: size.width * .8,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(14),
-              ),
-              padding: const EdgeInsets.only(left: 10, right: 10),
+            SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: 28),
               child: Column(
-                spacing: 15,
-                mainAxisAlignment: .center,
                 crossAxisAlignment: .center,
                 children: [
+                  // Branding
+                  Container(
+                    width: 72,
+                    height: 72,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withAlpha(25),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: Colors.white.withAlpha(55),
+                        width: 1.5,
+                      ),
+                    ),
+                    child: Image.asset('assets/images/image-bg.png'),
+                  ),
                   Text(
-                    provider.isLogin ? 'Entrar' : 'Criar Conta',
+                    'Faturax',
                     style: TextStyle(
-                      color: AppColor.blackBlueLow,
-                      fontSize: 20,
+                      color: Colors.white,
+                      fontSize: 30,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 1.4,
                     ),
                   ),
-                  InputText(
-                    styleTextColor: AppColor.blackBlue,
-                    onChanged: (name) => provider.username = name,
-                    hintText: 'Usuário',
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  InputText(
-                    suffixIcon: InkWell(
-                      onTap: () {
-                        provider.setObscureText();
-                      },
-                      child: Icon(
-                        provider.isObscure
-                            ? Icons.visibility_off
-                            : Icons.visibility,
-                        size: 20,
-                      ),
-                    ),
-                    styleTextColor: AppColor.blackBlue,
-                    onChanged: (passwd) => provider.password = passwd,
-                    hintText: 'Senha',
-                    borderRadius: BorderRadius.circular(16),
-                    obscureText: provider.isObscure,
-                  ),
-
-                  if (provider.isSignup)
-                    InputText(
-                      suffixIcon: InkWell(
-                        onTap: () {
-                          provider.setObscureText();
-                        },
-                        child: Icon(
-                          provider.isObscure
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                          size: 20,
-                        ),
-                      ),
-                      styleTextColor: AppColor.blackBlue,
-                      onChanged: (passwd) => provider.password = passwd,
-                      hintText: 'Confirmar Senha',
-                      borderRadius: BorderRadius.circular(16),
-                      obscureText: provider.isObscure,
-                    ),
-
-                  EventButton(
-                    onTap: !provider.isLoading
-                        ? () => _onSubmit(context, provider)
-                        : null,
-                    title: provider.isLogin ? 'LogIn' : 'Signup',
-                    color: Color(0xff4150F7),
-                  ),
-
-                  InkWell(
-                    onTap: provider.isLoading
-                        ? null
-                        : () => provider.changeMode(),
+                  AnimatedSwitcher(
+                    duration: Duration(milliseconds: 450),
                     child: Text(
-                      provider.isLogin ? "Criar uma conta" : "Fazer Login",
-                      style: TextStyle(color: AppColor.backgroundColor),
+                      provider.isLogin
+                          ? 'Faça login em sua conta'
+                          : 'Crie sua conta',
+                      key: ValueKey(provider.isLogin),
+                      style: TextStyle(
+                        color: Colors.white.withAlpha(170),
+                        fontSize: 13.5,
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: 0.2,
+                      ),
                     ),
                   ),
+
+                  SizedBox(height: size.height * .03),
+
+                  // Form card
+                  AnimatedSize(
+                    duration: Duration(milliseconds: 450),
+                    reverseDuration: Duration(milliseconds: 450),
+                    child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 30,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(24),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withAlpha(60),
+                            blurRadius: 35,
+                            offset: const Offset(0, 14),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Text(
+                            provider.isLogin ? 'Entrar' : 'Criar Conta',
+                            style: const TextStyle(
+                              color: Color(0xFF111540),
+                              fontSize: 22,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            provider.isLogin
+                                ? 'Acesse sua conta para continuar'
+                                : 'Preencha os dados abaixo',
+                            style: TextStyle(
+                              color: AppColor.greyColor,
+                              fontSize: 13,
+                            ),
+                          ),
+                          const SizedBox(height: 22),
+                          InputText(
+                            prefixIcon: Icon(
+                              Icons.person_outline_rounded,
+                              size: 20,
+                              color: AppColor.blackColorAlpha70,
+                            ),
+                            styleTextColor: const Color(0xFF111540),
+                            onChanged: (name) => provider.username = name,
+                            hintText: 'Usuário',
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                          const SizedBox(height: 14),
+                          InputText(
+                            prefixIcon: Icon(
+                              Icons.lock_outline_rounded,
+                              size: 20,
+                              color: AppColor.blackColorAlpha70,
+                            ),
+                            suffixIcon: InkWell(
+                              onTap: () => provider.setObscureText(),
+                              child: Icon(
+                                provider.isObscure
+                                    ? Icons.visibility_off_outlined
+                                    : Icons.visibility_outlined,
+                                size: 20,
+                                color: AppColor.blackColorAlpha70,
+                              ),
+                            ),
+                            styleTextColor: const Color(0xFF111540),
+                            onChanged: (passwd) => provider.password = passwd,
+                            hintText: 'Senha',
+                            borderRadius: BorderRadius.circular(14),
+                            obscureText: provider.isObscure,
+                          ),
+                          if (provider.isSignup) ...[
+                            const SizedBox(height: 14),
+                            InputText(
+                              prefixIcon: Icon(
+                                Icons.lock_outline_rounded,
+                                size: 20,
+                                color: AppColor.blackColorAlpha70,
+                              ),
+                              suffixIcon: InkWell(
+                                onTap: () => provider.setObscureText(),
+                                child: Icon(
+                                  provider.isObscure
+                                      ? Icons.visibility_off_outlined
+                                      : Icons.visibility_outlined,
+                                  size: 20,
+                                  color: AppColor.blackColorAlpha70,
+                                ),
+                              ),
+                              styleTextColor: const Color(0xFF111540),
+                              onChanged: (passwd) => provider.password = passwd,
+                              hintText: 'Confirmar Senha',
+                              borderRadius: BorderRadius.circular(14),
+                              obscureText: provider.isObscure,
+                            ),
+                          ],
+                          const SizedBox(height: 26),
+                          EventButton(
+                            onTap: !provider.isLoading
+                                ? () => _onSubmit(context, provider)
+                                : null,
+                            title: provider.isLogin ? 'Entrar' : 'Criar Conta',
+                            color: const Color(0xff4150F7),
+                          ),
+                          const SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                provider.isLogin
+                                    ? 'Não tem uma conta?  '
+                                    : 'Já tem uma conta?  ',
+                                style: TextStyle(
+                                  color: AppColor.greyColor,
+                                  fontSize: 13,
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: provider.isLoading
+                                    ? null
+                                    : () => provider.changeMode(),
+                                child: const Text(
+                                  '',
+                                  style: TextStyle(fontSize: 13),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: provider.isLoading
+                                    ? null
+                                    : () => provider.changeMode(),
+                                child: Text(
+                                  provider.isLogin
+                                      ? 'Criar conta'
+                                      : 'Fazer login',
+                                  style: const TextStyle(
+                                    color: Color(0xff4150F7),
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 40),
                 ],
               ),
             ),
-            provider.isLoading
-                ? Center(
-                    child: Container(
-                      padding: EdgeInsets.all(23),
-                      height: 80,
-                      width: 80,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF232323).withAlpha(160),
-                        borderRadius: BorderRadius.circular(18),
-                      ),
-                      child: CircularProgressIndicator(
-                        color: Colors.cyanAccent,
-                      ),
+
+            // Loading overlay
+            if (provider.isLoading)
+              Container(
+                color: Colors.black.withAlpha(75),
+                child: Center(
+                  child: Container(
+                    padding: const EdgeInsets.all(22),
+                    height: 82,
+                    width: 82,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withAlpha(40),
+                          blurRadius: 24,
+                        ),
+                      ],
                     ),
-                  )
-                : Container(),
+                    child: const CircularProgressIndicator(
+                      color: Color(0xff4150F7),
+                      strokeWidth: 3,
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),
