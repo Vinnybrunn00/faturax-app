@@ -21,11 +21,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting('pt_BR', null);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const MyApp());
+  runApp(const FaturaX());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class FaturaX extends StatelessWidget {
+  const FaturaX({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -45,7 +45,7 @@ class SliverAppBarFuturax extends StatelessWidget {
         ),
       ],
       actionsPadding: EdgeInsets.only(right: 20),
-      titleTextStyle: TextStyle(fontSize: 21),
+      titleTextStyle: TextStyle(color: AppColor.whiteColor, fontSize: 21),
       flexibleSpace: FlexibleSpaceBar(
         background: Column(
           mainAxisAlignment: .end,

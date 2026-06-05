@@ -22,7 +22,10 @@ class ButtonItemsCompras extends StatelessWidget {
 
   int get _lastParcelas => _parcelasTotais - _parcelasParciais;
 
-  bool get _pago => _parcelasTotais == _parcelasParciais;
+  bool get _isPago {
+    if (_isFixed) return !_isFixed;
+    return _parcelasTotais == _parcelasParciais;
+  }
 
   Text _showParcelasFormat() {
     if (_parcelasTotais == 1) {
@@ -34,8 +37,10 @@ class ButtonItemsCompras extends StatelessWidget {
     return Text(
       '$_parcelasParciais/$_parcelasTotais Parcelas',
       style: TextStyle(
-        color: _pago ? Colors.black.withAlpha(90) : Colors.black.withAlpha(145),
-        fontSize: 11,
+        color: _isPago
+            ? Colors.black.withAlpha(90)
+            : Colors.black.withAlpha(145),
+        fontSize: 12,
       ),
     );
   }
@@ -95,7 +100,7 @@ class ButtonItemsCompras extends StatelessWidget {
                           child: Text(
                             _name,
                             style: TextStyle(
-                              color: _pago
+                              color: _isPago
                                   ? AppColor.blackBlue.withAlpha(90)
                                   : AppColor.blackBlue,
                               fontSize: 16,
@@ -111,7 +116,7 @@ class ButtonItemsCompras extends StatelessWidget {
                   Text(
                     product.convertCentInReais(_priceInt),
                     style: TextStyle(
-                      color: _pago
+                      color: _isPago
                           ? AppColor.blackBlueLow.withAlpha(90)
                           : AppColor.blackBlueLow,
                       fontSize: 15,
@@ -144,18 +149,17 @@ class ButtonItemsCompras extends StatelessWidget {
                             )
                           : _showParcelasFormat(),
 
-                      if (_pago)
+                      if (_isPago)
                         Container(
                           padding: EdgeInsets.fromLTRB(10, .5, 10, .5),
                           decoration: BoxDecoration(
-                            color: AppColor.redColor.withAlpha(25),
+                            color: AppColor.greenColor.withAlpha(20),
                             borderRadius: BorderRadius.circular(18),
                           ),
                           child: Text(
                             'Pago',
                             style: TextStyle(
-                              color: AppColor.redColor.withAlpha(150),
-                              fontWeight: .w600,
+                              color: AppColor.greenColor.withAlpha(200),
                               fontSize: 11,
                             ),
                           ),
@@ -167,7 +171,7 @@ class ButtonItemsCompras extends StatelessWidget {
                       ? Text(
                           "Adicionado em ${userView.showDataCompra(_timeStamp)}",
                           style: TextStyle(
-                            color: _pago
+                            color: _isPago
                                 ? AppColor.greyColor.withAlpha(90)
                                 : AppColor.greyColor,
                             fontSize: 12,
@@ -176,7 +180,7 @@ class ButtonItemsCompras extends StatelessWidget {
                       : Text(
                           'Início em $_startDate',
                           style: TextStyle(
-                            color: _pago
+                            color: _isPago
                                 ? AppColor.greyColor.withAlpha(110)
                                 : AppColor.greyColor,
                             fontSize: 12,

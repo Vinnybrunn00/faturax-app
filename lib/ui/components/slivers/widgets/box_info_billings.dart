@@ -29,6 +29,7 @@ class BoxInfoBillings extends StatelessWidget {
       decoration: BoxDecoration(
         color: Color(0xFF333EBF),
         borderRadius: BorderRadius.circular(12),
+        boxShadow: [BoxShadow(blurRadius: 5, color: Color(0xFF333EBF))],
       ),
       child: Column(
         mainAxisAlignment: .center,
@@ -39,7 +40,10 @@ class BoxInfoBillings extends StatelessWidget {
             children: [
               Text(
                 'Total a pagar no cartão',
-                style: TextStyle(color: AppColor.yellowColor220, fontSize: 13),
+                style: TextStyle(
+                  color: AppColor.whiteColor.withAlpha(180),
+                  fontSize: 13,
+                ),
               ),
               Row(
                 spacing: 10,
