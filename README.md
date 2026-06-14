@@ -1,4 +1,4 @@
-# faturax_app
+# faturax
 
 A new Flutter project.
 
