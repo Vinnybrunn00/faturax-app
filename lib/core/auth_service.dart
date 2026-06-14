@@ -7,9 +7,7 @@ class AuthServices {
   final String _username;
   final String _password;
 
-  AuthServices({required String username, required String password})
-    : _username = username,
-      _password = password;
+  AuthServices({required this._username, required this._password});
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;

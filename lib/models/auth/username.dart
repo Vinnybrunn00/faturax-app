@@ -1,10 +1,10 @@
-import 'package:faturax/constants/regex_password.dart';
-import 'package:faturax/core/contract/user_contract.dart';
+import 'package:faturax_app/constants/regex_patterns.dart';
+import 'package:faturax_app/core/contract/user_contracts.dart';
 
-class Username implements ContractUser {
+class Username implements ContractsUser {
   final String _username;
 
-  Username({required String username}) : _username = username;
+  Username({required this._username});
 
   @override
   String get getValue => _username;

@@ -1,12 +1,14 @@
-import 'package:faturax/constants/constants_color.dart';
-import 'package:faturax/core/auth_service.dart';
-import 'package:faturax/models/auth/password.dart';
-import 'package:faturax/models/auth/auth_model.dart';
-import 'package:faturax/models/auth/username.dart';
-import 'package:faturax/ui/widgets/event_button.dart';
-import 'package:faturax/ui/widgets/input_text.dart';
-import 'package:faturax/ui/pages/home_page.dart';
-import 'package:faturax/utils/utils.dart';
+import 'package:faturax_app/constants/constants_color.dart';
+import 'package:faturax_app/core/auth_service.dart';
+import 'package:faturax_app/viewmodels/auth_model.dart';
+import 'package:faturax_app/models/auth/password.dart';
+import 'package:faturax_app/models/auth/username.dart';
+import 'package:faturax_app/navigators/navigators_app.dart';
+import 'package:faturax_app/ui/helpers/helpers.dart';
+import 'package:faturax_app/ui/pages/home_page.dart';
+import 'package:faturax_app/ui/widgets/event_button.dart';
+import 'package:faturax_app/ui/widgets/input_text.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +17,8 @@ import 'package:provider/provider.dart';
 class AuthPage extends StatelessWidget {
   AuthPage({super.key});
 
-  final Utils _utils = Utils();
+  final Helpers _helpers = Helpers();
+  final NavigatorsApp _navigator = NavigatorsApp();
 
   void _onSubmit(BuildContext context, AuthModel authModel) async {
     try {
@@ -33,13 +36,13 @@ class AuthPage extends StatelessWidget {
       authModel.isLogin ? await services.signIn() : await services.signUp();
 
       if (!context.mounted) return;
-      await _utils.pushAndRemoveUntil(context, HomePage());
+      await _navigator.pushAndRemoveUntil(context, HomePage());
     } on FirebaseException catch (messageError) {
       if (!context.mounted) return;
-      _utils.showMessageInfo(context, message: messageError.toString());
+      _helpers.showMessageInfo(context, message: messageError.toString());
     } catch (messageError) {
       if (!context.mounted) return;
-      _utils.showMessageInfo(context, message: messageError.toString());
+      _helpers.showMessageInfo(context, message: messageError.toString());
     } finally {
       authModel.setLoading = false;
     }

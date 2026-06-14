@@ -1,0 +1,222 @@
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
+import 'package:faturax_app/constants/constants_color.dart';
+import 'package:faturax_app/constants/constants_values.dart';
+import 'package:faturax_app/ui/helpers/helpers.dart';
+import 'package:faturax_app/ui/widgets/box_circular_progress.dart';
+import 'package:faturax_app/viewmodels/date_picker.dart';
+import 'package:faturax_app/viewmodels/product_model.dart';
+import 'package:faturax_app/repository/product_repository.dart';
+import 'package:faturax_app/ui/components/inputs/input_compras.dart';
+
+import 'package:flutter/material.dart';
+import 'package:iconsx_plus/iconsx_plus.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+
+class ModalNewCompras {
+  final Helpers _helpers = Helpers();
+
+  final CurrencyTextInputFormatter _formatter =
+      CurrencyTextInputFormatter.currency(
+        locale: 'pt_BR',
+        symbol: 'R\$',
+        decimalDigits: 2,
+      );
+
+  Future<void> showModalNewCompras(
+    BuildContext context,
+    DatePicker datePicker,
+    ProductRepository product,
+  ) async {
+    final ProductModel productModels = context.read<ProductModel>();
+    final Size size = MediaQuery.of(context).size;
+    await showModalBottomSheet(
+      useSafeArea: true,
+      showDragHandle: true,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      context: context,
+      builder: (ctx) => MultiProvider(
+        providers: [
+          ChangeNotifierProvider.value(value: datePicker),
+          ChangeNotifierProvider.value(value: productModels),
+          ChangeNotifierProvider.value(value: product),
+        ],
+        child: Consumer3<ProductRepository, DatePicker, ProductModel>(
+          builder: (ctxz, product, datePicker, productModel, _) {
+            return Container(
+              margin: EdgeInsets.only(
+                bottom: MediaQuery.of(ctx).viewInsets.bottom,
+              ),
+              padding: EdgeInsets.only(left: 12, right: 12),
+              height: size.height - 250,
+              width: size.width,
+              child: SingleChildScrollView(
+                child: Stack(
+                  children: [
+                    Column(
+                      spacing: 10,
+                      children: [
+                        Text(
+                          'Nova Compra',
+                          style: TextStyle(fontSize: 17, fontWeight: .w600),
+                        ),
+
+                        InputCompras(
+                          enabled: !product.loading,
+                          title: 'Nome da Compra',
+                          onChanged: (name) => productModel.name = name,
+                          hintText: 'Ex: Mercado Livre, JD, etc...',
+                        ),
+
+                        InputCompras(
+                          enabled: !product.loading,
+                          title: 'Valor da Compra',
+                          onChanged: (_) => productModel.price = _formatter
+                              .getFormattedValue(),
+                          hintText: 'R\$ 0,00',
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [_formatter],
+                        ),
+
+                        if (productModel.fixed != null) ...[
+                          if (!productModel.fixed!)
+                            InputCompras(
+                              enabled: !product.loading,
+                              title: 'Numero de parcelas',
+                              onChanged: (installments) =>
+                                  productModel.installments = installments,
+                              hintText: 'ex: 5',
+                              keyboardType: TextInputType.number,
+                            ),
+
+                          if (!productModel.fixed!)
+                            Column(
+                              spacing: 5,
+                              crossAxisAlignment: .start,
+                              children: [
+                                Text('Começa a ser cobrado em'),
+                                InkWell(
+                                  onTap: product.loading
+                                      ? null
+                                      : () async {
+                                          await datePicker.selectDate(context);
+                                        },
+                                  child: Container(
+                                    padding: EdgeInsets.only(left: 12),
+                                    height: 50,
+                                    width: size.width,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(
+                                        color: AppColor.blackColorAlpha55,
+                                      ),
+                                    ),
+                                    child: Row(
+                                      spacing: 8,
+                                      children: [
+                                        Icon(BoxIcons.bx_calendar),
+                                        Text(
+                                          datePicker.date ??
+                                              DateFormat(
+                                                formatDatePt,
+                                                'pt_BR',
+                                              ).format(DateTime.now()),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                        ],
+                        Row(
+                          children: [
+                            Transform.scale(
+                              alignment: Alignment.centerLeft,
+                              scale: 1,
+                              child: Checkbox(
+                                activeColor: AppColor.pupleColor,
+                                value: productModel.fixed,
+                                onChanged: product.loading
+                                    ? null
+                                    : (bool? value) {
+                                        productModel.changeButton(value);
+                                      },
+                              ),
+                            ),
+                            Text('É assinatura?'),
+                          ],
+                        ),
+                        InkWell(
+                          onTap: product.loading
+                              ? null
+                              : () async {
+                                  try {
+                                    if (productModel.isEmpty) {
+                                      Navigator.pop(context);
+                                      _helpers.showMessageInfo(
+                                        ctxz,
+                                        message:
+                                            'Os Campos não podem estar vazios.',
+                                      );
+                                      return;
+                                    }
+                                    product.changeLoading();
+
+                                    await product.saveProduct(
+                                      productModel,
+                                      datePicker.dateTimeApp,
+                                    );
+
+                                    product.changeLoading();
+
+                                    if (!context.mounted) return;
+                                    Navigator.pop(context);
+                                  } catch (err) {
+                                    if (!context.mounted) return;
+                                    Navigator.pop(context);
+                                    _helpers.showMessageInfo(
+                                      context,
+                                      message:
+                                          'Preencha a data de inicio do pagamento',
+                                    );
+                                  } finally {
+                                    product.stopLoading();
+                                  }
+                                },
+                          child: Container(
+                            height: 55,
+                            width: size.width,
+                            decoration: BoxDecoration(
+                              color: Color(0xff4150F7),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Salvar Compra',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    product.loading ? BoxCircularProgress() : SizedBox.shrink(),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    ).then((_) {
+      productModels.reset();
+      datePicker.setDate = DateFormat(
+        formatDatePt,
+        'pt_BR',
+      ).format(DateTime.now());
+    });
+  }
+}

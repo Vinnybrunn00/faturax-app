@@ -1,50 +1,39 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:faturax/constants/constants_values.dart';
-import 'package:faturax/models/product/product_model.dart';
-import 'package:faturax/ui/widgets/theme_data_picker.dart';
-import 'package:faturax/utils/utils.dart';
+import 'package:faturax_app/constants/constants_values.dart';
+import 'package:faturax_app/viewmodels/date_time_app.dart';
+import 'package:faturax_app/viewmodels/items_model.dart';
+import 'package:faturax_app/viewmodels/product_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class NewProduct with ChangeNotifier {
-  NewProduct() {
+class ProductRepository with ChangeNotifier {
+  ProductRepository() {
     _update();
   }
 
-  String _initialDate = DateFormat(
-    formatDatePt,
-    'pt_BR',
-  ).format(DateTime.now());
-
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-  User? get _currentUser => FirebaseAuth.instance.currentUser;
 
   StreamSubscription? _itemsSubscription;
 
-  DocumentReference<Map<String, dynamic>> get users =>
+  User? get _currentUser => FirebaseAuth.instance.currentUser;
+
+  DocumentReference<Map<String, dynamic>> get _users =>
       _firestore.collection('users').doc(_currentUser?.uid);
 
-  CollectionReference<Map<String, dynamic>> get items =>
-      users.collection('items');
-
-  String? _date;
-
-  int _month = DateTime.now().month;
-  int _year = DateTime.now().year;
+  CollectionReference<Map<String, dynamic>> get _items =>
+      _users.collection('items');
 
   int _price = 0;
   int _priceBefore = 0;
 
-  int get price => _price;
-  String? get date => _date;
+  bool _loading = false;
+  bool get loading => _loading;
 
-  set setDate(String value) {
-    _date = value;
-  }
+  int get price => _price;
+
+  int _timeStamp() => DateTime.now().millisecondsSinceEpoch;
 
   String convertCentInReais(int cent) {
     final NumberFormat formatter = NumberFormat.currency(
@@ -67,11 +56,43 @@ class NewProduct with ChangeNotifier {
     return 0;
   }
 
-  int _timeStamp() {
-    return DateTime.now().millisecondsSinceEpoch;
+  Future<String> deleteCompra(String id) async {
+    changeLoading();
+    try {
+      final DocumentReference<Map<String, dynamic>> docRef = _items.doc(id);
+
+      await docRef.delete();
+
+      final snapshot = await docRef.get();
+
+      changeLoading();
+
+      if (!snapshot.exists) {
+        return 'Compra excluida com sucesso';
+      }
+      return 'Error ao deletar compra, tente novamente';
+    } catch (_) {
+      _loading = false;
+      return 'Error ao deletar compra, tente novamente';
+    } finally {
+      _loading = false;
+    }
   }
 
-  Future<void> saveProduct(ProductModel product) async {
+  Future<void> changeParcelas(ItemsModel itemsModel, String id) async {
+    if (_currentUser != null) {
+      changeLoading();
+
+      await _items.doc(id).update({'parcelas_parciais': itemsModel.parcelas});
+
+      changeLoading();
+    }
+  }
+
+  Future<void> saveProduct(
+    ProductModel product,
+    DateTimeApp dateTimeApp,
+  ) async {
     final int? parcelas = int.tryParse(product.installments);
 
     bool fixed = false;
@@ -80,27 +101,25 @@ class NewProduct with ChangeNotifier {
 
     if (!fixed && (parcelas == null || parcelas <= 0)) return;
 
-    final String itemId = Utils.randomNumber.toString();
-
-    await items.doc(itemId).set({
+    await _items.doc(itemId).set({
       'name': product.name,
       'parcelas_parciais': 0,
       'parcelas_totais': fixed ? 0 : parcelas,
       'price_int': _convertForCent(product.price),
-      'start_date': fixed ? null : _initialDate,
+      'start_date': fixed ? null : dateTimeApp.datePicker,
       'timestamp': _timeStamp(),
-      'month': _month,
-      'year': _year,
+      'month': dateTimeApp.month,
+      'year': dateTimeApp.year,
       'isFixed': product.fixed,
     });
   }
 
-  Future<void> _changePriceTotal() async {
+  Future<void> changePriceTotal({bool? isAfter}) async {
     await _itemsSubscription?.cancel();
 
     if (_currentUser == null) return;
 
-    final snapshots = items.snapshots();
+    final snapshots = _items.snapshots();
 
     _itemsSubscription = snapshots.listen((onData) async {
       int temp = 0;
@@ -123,7 +142,10 @@ class NewProduct with ChangeNotifier {
           );
 
           final DateTime startDate = DateTime(startYear, startMonth);
-          final DateTime nowDate = DateTime(now.year, now.month);
+          final DateTime nowDate = DateTime(
+            now.year,
+            now.month + (isAfter != null ? 1 : 0),
+          );
 
           final int parcelasPagas =
               (nowDate.year - startDate.year) * 12 +
@@ -147,44 +169,28 @@ class NewProduct with ChangeNotifier {
       _priceBefore = temp;
       notifyListeners();
 
-      await _updateValueTotal();
+      if (isAfter == null) {
+        await _updatePriceTotal();
+      }
     });
   }
 
-  Future<void> _updateValueTotal() async {
-    await users.set({'total': _price}, SetOptions(merge: true));
+  Future<void> _updatePriceTotal() async {
+    await _users.set({'total': _price}, SetOptions(merge: true));
   }
 
   void _update() async {
-    await _changePriceTotal();
-    //await _updateValueTotal();
+    await changePriceTotal();
   }
 
-  Future<void> selectDate(BuildContext context) async {
-    final DateTime? showDataPicker = await showDatePicker(
-      context: context,
-      barrierDismissible: true,
-      initialEntryMode: DatePickerEntryMode.calendarOnly,
-      firstDate: DateTime(1500),
-      lastDate: DateTime(2500),
-      locale: const Locale('pt', 'BR'),
-      builder: (context, child) {
-        return ThemeDataPicker(child: child);
-      },
-    );
+  void changeLoading() {
+    _loading = !_loading;
+    notifyListeners();
+  }
 
-    if (showDataPicker != null) {
-      final String format = DateFormat(
-        formatDatePt,
-        'pt_BR',
-      ).format(showDataPicker);
-
-      _date = format;
-      _initialDate = format;
-      _month = showDataPicker.month;
-      _year = showDataPicker.year;
-      notifyListeners();
-    }
+  void stopLoading() {
+    _loading = false;
+    notifyListeners();
   }
 
   @override

@@ -1,13 +1,16 @@
-import 'package:faturax/controller/internet_tester_controller.dart';
-import 'package:faturax/models/auth/auth_model.dart';
-import 'package:faturax/models/items/items_model.dart';
-import 'package:faturax/models/product/new_product.dart';
-import 'package:faturax/models/product/product_model.dart';
-import 'package:faturax/models/ranking/ranking_model.dart';
-import 'package:faturax/models/user/user_model.dart';
-import 'package:faturax/ui/pages/auth/auth_page.dart';
-import 'package:faturax/ui/pages/error_connection_page.dart';
-import 'package:faturax/ui/pages/home_page.dart';
+import 'package:faturax_app/viewmodels/date_picker.dart';
+import 'package:faturax_app/repository/next_month_product.dart';
+import 'package:faturax_app/repository/product_repository.dart';
+import 'controller/home_view_model.dart';
+import 'controller/internet_tester_controller.dart';
+import 'viewmodels/auth_model.dart';
+import 'viewmodels/items_model.dart';
+import 'viewmodels/product_model.dart';
+import 'repository/ranking_repository.dart';
+import 'repository/user_repository.dart';
+import 'ui/pages/auth/auth_page.dart';
+import 'ui/pages/error_connection_page.dart';
+import 'ui/pages/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -35,14 +38,16 @@ class FaturaX extends StatelessWidget {
         return MultiProvider(
           key: ValueKey(snapshot.data?.uid),
           providers: [
-            ChangeNotifierProvider(create: (_) => UserModel()),
-            ChangeNotifierProvider(create: (_) => NewProduct()),
+            ChangeNotifierProvider(create: (_) => UserRepository()),
+            ChangeNotifierProvider(create: (_) => DatePicker()),
             ChangeNotifierProvider(create: (_) => AuthModel()),
             ChangeNotifierProvider(create: (_) => ItemsModel()),
-            ChangeNotifierProvider(create: (_) => RankingModel()),
+            ChangeNotifierProvider(create: (_) => RankingRepository()),
             ChangeNotifierProvider(create: (_) => UserView()),
             ChangeNotifierProvider(create: (_) => InternetTesterController()),
             ChangeNotifierProvider(create: (_) => ProductModel()),
+            ChangeNotifierProvider(create: (_) => ProductRepository()),
+            ChangeNotifierProvider(create: (_) => NextMonthProduct()),
           ],
           child: MaterialApp(
             builder: (context, child) {

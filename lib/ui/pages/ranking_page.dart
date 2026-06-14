@@ -1,14 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:faturax/constants/constants_color.dart';
-import 'package:faturax/models/product/new_product.dart';
-import 'package:faturax/models/ranking/ranking_model.dart';
+import 'package:faturax_app/constants/constants_color.dart';
+import 'package:faturax_app/viewmodels/date_picker.dart';
+import 'package:faturax_app/repository/ranking_repository.dart';
+import 'package:faturax_app/repository/product_repository.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class RankingPage extends StatelessWidget {
-  final NewProduct newProduct;
+  final DatePicker datePicker;
+  final ProductRepository product;
 
-  RankingPage({super.key, required this.newProduct});
+  RankingPage({super.key, required this.datePicker, required this.product});
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -17,10 +20,10 @@ class RankingPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       appBar: AppBar(
-        title: Consumer<RankingModel>(
-          builder: (context, value, child) {
+        title: Consumer<RankingRepository>(
+          builder: (context, ranking, child) {
             return Text(
-              newProduct.convertCentInReais(value.price),
+              product.convertCentInReais(ranking.price),
               style: TextStyle(color: AppColor.whiteColor),
             );
           },
@@ -50,7 +53,7 @@ class RankingPage extends StatelessWidget {
                       title: Text(data['username'].toString()),
                       trailing: Text(
                         data['total'] != null
-                            ? newProduct.convertCentInReais(data['total'])
+                            ? product.convertCentInReais(data['total'])
                             : data['total'].toString(),
                         style: TextStyle(fontSize: 14, fontWeight: .w500),
                       ),

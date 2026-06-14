@@ -1,4 +1,5 @@
-import 'package:faturax/constants/constants_color.dart';
+
+import 'package:faturax_app/constants/constants_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

@@ -1,4 +1,4 @@
-abstract class ContractUser {
+abstract class ContractsUser {
   String get getValue;
 
   void validate();
