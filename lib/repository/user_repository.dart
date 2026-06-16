@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:faturax_app/services/logs_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 class UserRepository with ChangeNotifier {
   UserRepository() {
@@ -56,5 +57,9 @@ class UserRepository with ChangeNotifier {
   void _update() async {
     await _getUsername();
     _owner();
+
+    if (!kDebugMode) {
+      LogsServices(message: 'novo login', type: 'INFO', username: _username);
+    }
   }
 }

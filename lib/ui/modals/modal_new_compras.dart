@@ -1,13 +1,13 @@
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:faturax_app/constants/constants_color.dart';
 import 'package:faturax_app/constants/constants_values.dart';
+import 'package:faturax_app/services/logs_services.dart';
 import 'package:faturax_app/ui/helpers/helpers.dart';
 import 'package:faturax_app/ui/widgets/box_circular_progress.dart';
 import 'package:faturax_app/viewmodels/date_picker.dart';
 import 'package:faturax_app/viewmodels/product_model.dart';
 import 'package:faturax_app/repository/product_repository.dart';
 import 'package:faturax_app/ui/components/inputs/input_compras.dart';
-
 import 'package:flutter/material.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 import 'package:intl/intl.dart';
@@ -84,8 +84,8 @@ class ModalNewCompras {
                             InputCompras(
                               enabled: !product.loading,
                               title: 'Numero de parcelas',
-                              onChanged: (installments) =>
-                                  productModel.installments = installments,
+                              onChanged: (parcelas) =>
+                                  productModel.parcelas = parcelas,
                               hintText: 'ex: 5',
                               keyboardType: TextInputType.number,
                             ),
@@ -173,6 +173,13 @@ class ModalNewCompras {
                                     product.changeLoading();
 
                                     if (!context.mounted) return;
+                                    // LOG - salvar nova compra
+                                    LogsServices(
+                                      context: context,
+                                      message:
+                                          'salvou uma nova compra -> "${productModel.name}" - ${productModel.price} em ${productModel.parcelas} parcela(s)',
+                                      type: 'INFO',
+                                    );
                                     Navigator.pop(context);
                                   } catch (err) {
                                     if (!context.mounted) return;

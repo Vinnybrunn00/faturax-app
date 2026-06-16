@@ -1,17 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:faturax_app/constants/constants_color.dart';
-import 'package:faturax_app/viewmodels/date_picker.dart';
 import 'package:faturax_app/repository/ranking_repository.dart';
 import 'package:faturax_app/repository/product_repository.dart';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class RankingPage extends StatelessWidget {
-  final DatePicker datePicker;
-  final ProductRepository product;
-
-  RankingPage({super.key, required this.datePicker, required this.product});
+  RankingPage({super.key});
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -20,8 +15,8 @@ class RankingPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       appBar: AppBar(
-        title: Consumer<RankingRepository>(
-          builder: (context, ranking, child) {
+        title: Consumer2<RankingRepository, ProductRepository>(
+          builder: (context, ranking, product, _) {
             return Text(
               product.convertCentInReais(ranking.price),
               style: TextStyle(color: AppColor.whiteColor),
@@ -42,6 +37,8 @@ class RankingPage extends StatelessWidget {
                 }
 
                 final docs = snapshot.data!.docs;
+                final ProductRepository product = context
+                    .read<ProductRepository>();
 
                 return ListView.builder(
                   itemCount: docs.length,

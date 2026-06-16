@@ -1,12 +1,10 @@
 import 'package:faturax_app/constants/constants_color.dart';
 import 'package:faturax_app/navigators/navigators_app.dart';
-import 'package:faturax_app/ui/helpers/helpers.dart';
 import 'package:faturax_app/viewmodels/date_picker.dart';
 import 'package:faturax_app/repository/user_repository.dart';
 import 'package:faturax_app/repository/next_month_product.dart';
 import 'package:faturax_app/repository/product_repository.dart';
-import 'package:faturax_app/ui/pages/profile_page.dart';
-import 'package:faturax_app/ui/pages/ranking_page.dart';
+import 'package:faturax_app/ui/pages/settings_page.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 import 'package:provider/provider.dart';
 import 'button_low_box_info.dart';
@@ -16,7 +14,6 @@ class BoxInfoBillings extends StatelessWidget {
   BoxInfoBillings({super.key});
 
   final NavigatorsApp _navigatorsApp = NavigatorsApp();
-  final Helpers _helpers = Helpers();
 
   Color? setColor(int diference) {
     if (diference > 0) {
@@ -88,32 +85,13 @@ class BoxInfoBillings extends StatelessWidget {
                           ),
 
                           ButtonLowBoxInfo(
-                            icon: Icons.person,
+                            icon: Icons.settings,
                             iconColor: Colors.white,
                             onTap: () async {
-                              await _navigatorsApp.push(context, ProfilePage());
-                            },
-                          ),
-
-                          ButtonLowBoxInfo(
-                            icon: Icons.attach_money,
-                            iconColor: AppColor.greenColor,
-                            onTap: () async {
-                              if (!userModel.isOwner) {
-                                _helpers.showMessageInfo(
-                                  context,
-                                  message:
-                                      'Apenas Vinícius pode usar essa função.',
-                                );
-                              } else {
-                                await _navigatorsApp.push(
-                                  context,
-                                  RankingPage(
-                                    datePicker: datePicker,
-                                    product: product,
-                                  ),
-                                );
-                              }
+                              await _navigatorsApp.push(
+                                context,
+                                SettingsPage(),
+                              );
                             },
                           ),
                         ],
@@ -136,28 +114,31 @@ class BoxInfoBillings extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          setIcon(diference) != null
-                              ? Icon(
-                                  setIcon(diference),
-                                  size: 17,
-                                  color: setColor(diference),
-                                )
-                              : SizedBox.shrink(),
+                          if (!userModel.notVisibility)
+                            setIcon(diference) != null
+                                ? Icon(
+                                    setIcon(diference),
+                                    size: 17,
+                                    color: setColor(diference),
+                                  )
+                                : SizedBox.shrink(),
                           Text(
-                            product.convertCentInReais(
-                              afterMonth.price - product.price,
-                            ),
+                            userModel.notVisibility
+                                ? '****'
+                                : product.convertCentInReais(
+                                    afterMonth.price - product.price,
+                                  ),
                             style: TextStyle(
                               fontSize: 12,
-                              color: setColor(diference),
+                              color: userModel.notVisibility
+                                  ? Colors.grey
+                                  : setColor(diference),
                             ),
                           ),
                         ],
                       ),
                     ],
                   ),
-                  SizedBox(height: 5),
-
                   SizedBox(height: 7),
                   Row(
                     mainAxisAlignment: .spaceBetween,

@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:faturax_app/constants/constants_color.dart';
 import 'package:faturax_app/controller/home_view_model.dart';
 import 'package:faturax_app/models/items_compras_model.dart';
-import 'package:faturax_app/viewmodels/date_picker.dart';
 import 'package:faturax_app/repository/user_repository.dart';
 import 'package:faturax_app/repository/next_month_product.dart';
 import 'package:faturax_app/repository/product_repository.dart';

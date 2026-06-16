@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:faturax_app/constants/constants_color.dart';
+import 'package:faturax_app/services/logs_services.dart';
 import 'package:faturax_app/ui/helpers/helpers.dart';
 import 'package:faturax_app/ui/widgets/box_circular_progress.dart';
-import 'package:faturax_app/viewmodels/date_picker.dart';
 import 'package:faturax_app/viewmodels/items_model.dart';
 import 'package:faturax_app/repository/product_repository.dart';
 import 'package:faturax_app/ui/widgets/event_button.dart';
@@ -125,6 +125,20 @@ class ItemsPage extends StatelessWidget {
                                             context,
                                             message: deleteMsg,
                                           );
+                                          if (!context.mounted) return;
+                                          // LOG - Delete compra
+                                          final priceFormat = product
+                                              .convertCentInReais(
+                                                _items['price_int'],
+                                              );
+
+                                          LogsServices(
+                                            context: context,
+                                            message:
+                                                'deletou a compra ${_items['name']} de $priceFormat',
+                                            type: 'INFO',
+                                          );
+
                                           Navigator.of(context).pop();
                                           Navigator.of(context).pop();
                                         },
@@ -231,6 +245,14 @@ class ItemsPage extends StatelessWidget {
                                 await product.changeParcelas(itemsModel, _id);
 
                                 if (!context.mounted) return;
+                                // LOG - editar compra
+                                LogsServices(
+                                  context: context,
+                                  message:
+                                      'editou a compra "${_items["name"]}" para ${itemsModel.parcelas} parcela(s)',
+                                  type: 'INFO',
+                                );
+
                                 Navigator.of(context).pop();
                               }
                             : null,

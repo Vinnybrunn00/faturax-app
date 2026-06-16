@@ -33,7 +33,7 @@ class ProductRepository with ChangeNotifier {
 
   int get price => _price;
 
-  int _timeStamp() => DateTime.now().millisecondsSinceEpoch;
+  int get timeStamp => DateTime.now().millisecondsSinceEpoch;
 
   String convertCentInReais(int cent) {
     final NumberFormat formatter = NumberFormat.currency(
@@ -93,7 +93,7 @@ class ProductRepository with ChangeNotifier {
     ProductModel product,
     DateTimeApp dateTimeApp,
   ) async {
-    final int? parcelas = int.tryParse(product.installments);
+    final int? parcelas = int.tryParse(product.parcelas);
 
     bool fixed = false;
 
@@ -107,7 +107,7 @@ class ProductRepository with ChangeNotifier {
       'parcelas_totais': fixed ? 0 : parcelas,
       'price_int': _convertForCent(product.price),
       'start_date': fixed ? null : dateTimeApp.datePicker,
-      'timestamp': _timeStamp(),
+      'timestamp': timeStamp,
       'month': dateTimeApp.month,
       'year': dateTimeApp.year,
       'isFixed': product.fixed,

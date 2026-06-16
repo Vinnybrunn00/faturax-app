@@ -39,6 +39,8 @@ class AuthModel with ChangeNotifier {
     notifyListeners();
   }
 
+  
+
   @override
   void dispose() {
     _isDisposed = true;

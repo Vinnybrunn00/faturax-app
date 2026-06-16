@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ProductModel with ChangeNotifier {
   String name = '';
   String price = '';
-  String installments = '';
+  String parcelas = '';
 
   bool? _fixed = false;
   bool? get fixed => _fixed;
@@ -15,7 +15,7 @@ class ProductModel with ChangeNotifier {
     if (isFixed) {
       return priceAndName;
     }
-    return priceAndName || installments == '';
+    return priceAndName || parcelas == '';
   }
 
   void changeButton(bool? value) {
@@ -26,7 +26,7 @@ class ProductModel with ChangeNotifier {
   void reset() {
     name = '';
     price = '';
-    installments = '';
+    parcelas = '';
     _fixed = false;
     notifyListeners();
   }

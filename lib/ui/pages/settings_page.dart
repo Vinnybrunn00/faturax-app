@@ -1,12 +1,15 @@
 import 'package:faturax_app/constants/constants_color.dart';
+import 'package:faturax_app/controller/settings_manager.dart';
 import 'package:faturax_app/repository/product_repository.dart';
 import 'package:faturax_app/ui/widgets/box_circular_progress.dart';
 import 'package:faturax_app/repository/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+class SettingsPage extends StatelessWidget {
+  SettingsPage({super.key});
+
+  final SettingsManager _settingsManager = SettingsManager();
 
   @override
   Widget build(BuildContext context) {
@@ -27,25 +30,17 @@ class ProfilePage extends StatelessWidget {
           return Stack(
             children: [
               Column(
-                children: [
-                  Consumer<UserRepository>(
-                    builder: (context, user, child) {
-                      return ListTile(
-                        onTap: () async {
-                          product.changeLoading();
-
-                          await Future.delayed(Duration(seconds: 2));
-                          await user.signOut();
-
-                          product.changeLoading();
-                        },
-                        leading: Icon(Icons.logout, color: AppColor.redColor),
+                children: _settingsManager
+                    .settingsOptions(context)
+                    .map(
+                      (Map<String, dynamic> elements) => ListTile(
+                        title: elements['title'],
+                        onTap: elements['onTap'],
+                        leading: elements['leading'],
                         trailing: Icon(Icons.arrow_forward_ios, size: 15),
-                        title: Text('Sair da conta'),
-                      );
-                    },
-                  ),
-                ],
+                      ),
+                    )
+                    .toList(),
               ),
               product.loading ? BoxCircularProgress() : SizedBox.shrink(),
             ],

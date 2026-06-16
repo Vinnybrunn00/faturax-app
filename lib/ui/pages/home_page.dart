@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:faturax_app/constants/constants_color.dart';
 import 'package:faturax_app/controller/home_view_model.dart';
@@ -9,7 +11,6 @@ import 'package:faturax_app/ui/components/slivers/sliver_app_bar_faturax.dart';
 import 'package:faturax_app/ui/components/slivers/sliver_box_error.dart';
 import 'package:faturax_app/ui/components/slivers/widgets/button_items_compras.dart';
 import 'package:faturax_app/ui/modals/modal_new_compras.dart';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,6 +18,8 @@ class HomePage extends StatelessWidget {
   HomePage({super.key});
 
   final ModalNewCompras _newCompras = ModalNewCompras();
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +38,13 @@ class HomePage extends StatelessWidget {
                   height: 60,
                   width: 60,
                   child: InkWell(
-                    onTap: () async => await _newCompras.showModalNewCompras(
-                      context,
-                      datePicker,
-                      product,
-                    ),
+                    onTap: () async {
+                      await _newCompras.showModalNewCompras(
+                        context,
+                        datePicker,
+                        product,
+                      );
+                    },
                     borderRadius: BorderRadius.circular(23),
                     child: Ink(
                       padding: EdgeInsets.all(8),
