@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:faturax_app/constants/constants_color.dart';
 import 'package:faturax_app/controller/home_view_model.dart';

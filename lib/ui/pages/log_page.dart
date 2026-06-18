@@ -25,7 +25,12 @@ class LogPage extends StatelessWidget {
               stream: _firestore.collection('logs').snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator(color: AppColor.greenColor);
+                  return Column(
+                    mainAxisAlignment: .center,
+                    children: [
+                      CircularProgressIndicator(color: AppColor.greenColor),
+                    ],
+                  );
                 }
 
                 if (!snapshot.hasData) {
@@ -55,8 +60,9 @@ class LogPage extends StatelessWidget {
                                     (element) => Text(
                                       element['message'].toString(),
                                       style: GoogleFonts.ubuntu(
+                                        fontSize: 14,
                                         color: element['color'],
-                                        fontWeight: .w500,
+                                        //fontWeight: .w500,
                                       ),
                                     ),
                                   )

@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+import 'package:faturax_app/services/update_app.dart';
 import 'package:faturax_app/viewmodels/date_picker.dart';
 import 'package:faturax_app/repository/next_month_product.dart';
 import 'package:faturax_app/repository/product_repository.dart';
@@ -75,8 +74,9 @@ class FaturaX extends StatelessWidget {
             ),
             home: Consumer<InternetTesterController>(
               builder: (context, data, _) {
+                UpdateApp(context: context);
+
                 if (!data.status) {
-                  log('sem net');
                   return ErrorConnectionPage();
                 }
                 return snapshot.hasData ? HomePage() : AuthPage();
