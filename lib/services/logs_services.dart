@@ -40,6 +40,7 @@ class LogsServices {
       'date': date,
       'type': type,
       'message': name != null ? '$name $message' : message,
+      'timestamp': timeStamp,
     });
   }
 

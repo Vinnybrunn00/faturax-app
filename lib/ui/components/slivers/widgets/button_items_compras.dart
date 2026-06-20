@@ -5,6 +5,7 @@ import 'package:faturax_app/models/items_compras_model.dart';
 import 'package:faturax_app/repository/user_repository.dart';
 import 'package:faturax_app/repository/next_month_product.dart';
 import 'package:faturax_app/repository/product_repository.dart';
+import 'package:faturax_app/ui/components/slivers/widgets/text_parcelas.dart';
 import 'package:faturax_app/ui/pages/items/items_page.dart';
 
 import 'package:flutter/material.dart';
@@ -17,7 +18,8 @@ class ButtonItemsCompras extends StatelessWidget {
 
   Map<String, dynamic> get _items => docs.data();
 
-  ItemsComprasModel get _itemsComprasModel => ItemsComprasModel(items: _items);
+  ItemComprasModel get _itemsComprasModel =>
+      ItemComprasModel.fromMapData(data: _items);
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +126,9 @@ class ButtonItemsCompras extends StatelessWidget {
                                     ),
                                   ),
                                 )
-                              : _itemsComprasModel.showParcelasFormat(),
+                              : TextParcelas(
+                                  itemComprasModel: _itemsComprasModel,
+                                ),
 
                           if (_itemsComprasModel.isPago)
                             Container(

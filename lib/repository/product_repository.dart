@@ -144,7 +144,7 @@ class ProductRepository with ChangeNotifier {
           final DateTime startDate = DateTime(startYear, startMonth);
           final DateTime nowDate = DateTime(
             now.year,
-            now.month + (isAfter != null ? 1 : 0),
+            now.month + ((isAfter ?? false) ? 1 : 0),
           );
 
           final int parcelasPagas =

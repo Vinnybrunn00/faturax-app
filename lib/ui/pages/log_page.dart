@@ -22,7 +22,10 @@ class LogPage extends StatelessWidget {
         children: [
           Expanded(
             child: StreamBuilder(
-              stream: _firestore.collection('logs').snapshots(),
+              stream: _firestore
+                  .collection('logs')
+                  .orderBy('timestamp')
+                  .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Column(
@@ -46,6 +49,19 @@ class LogPage extends StatelessWidget {
                 }
 
                 final docs = snapshot.data!.docs;
+
+                if (docs.isEmpty) {
+                  return Column(
+                    children: [
+                      Center(
+                        child: Text(
+                          'Nenhum log encontrado',
+                          style: TextStyle(color: AppColor.whiteColor),
+                        ),
+                      ),
+                    ],
+                  );
+                }
                 return SingleChildScrollView(
                   child: SingleChildScrollView(
                     scrollDirection: .horizontal,

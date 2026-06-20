@@ -17,8 +17,6 @@ class HomePage extends StatelessWidget {
 
   final ModalNewCompras _newCompras = ModalNewCompras();
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,19 +113,22 @@ class HomePage extends StatelessWidget {
                               widget: Text('Nenhuma compra encontrada'),
                             );
                           }
-
-                          return SliverList.separated(
-                            itemCount: docs.length,
-                            separatorBuilder: (_, _) => Container(
-                              margin: const EdgeInsets.symmetric(
-                                horizontal: 13,
-                              ),
-                              color: Colors.black.withAlpha(90),
-                              height: .5,
+                          
+                          return SliverPadding(
+                            padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).padding.bottom,
                             ),
-                            itemBuilder: (context, index) {
-                              return ButtonItemsCompras(docs: docs[index]);
-                            },
+                            sliver: SliverList.separated(
+                              itemCount: docs.length,
+                              separatorBuilder: (_, _) => Container(
+                                margin: EdgeInsets.symmetric(horizontal: 13),
+                                color: Colors.black.withAlpha(90),
+                                height: .5,
+                              ),
+                              itemBuilder: (context, index) {
+                                return ButtonItemsCompras(docs: docs[index]);
+                              },
+                            ),
                           );
                         },
                       ),
