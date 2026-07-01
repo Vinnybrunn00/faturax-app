@@ -23,7 +23,7 @@ class RankingPage extends StatelessWidget {
             );
           },
         ),
-        backgroundColor: AppColor.pupleColor,
+        backgroundColor: AppColor.purpleColor,
         iconTheme: IconThemeData(color: AppColor.whiteColor),
       ),
       body: Column(

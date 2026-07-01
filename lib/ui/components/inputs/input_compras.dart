@@ -9,7 +9,9 @@ class InputCompras extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final void Function(String)? onChanged;
   final bool? enabled;
-  
+  final bool readOnly;
+  final String? errorText;
+  final int? maxLength;
 
   const InputCompras({
     super.key,
@@ -17,7 +19,10 @@ class InputCompras extends StatelessWidget {
     required this.title,
     required this.hintText,
     this.keyboardType,
-    this.inputFormatters, this.enabled,
+    this.inputFormatters,
+    this.enabled,
+    this.readOnly = false, this.errorText, this.maxLength,
+    
   });
 
   @override
@@ -26,13 +31,16 @@ class InputCompras extends StatelessWidget {
       spacing: 5,
       crossAxisAlignment: .start,
       children: [
-        Text(title),
+        Text(title, style: TextStyle(fontSize: 14, fontWeight: .w600)),
         InputText(
           enabled: enabled,
           onChanged: onChanged,
           hintText: hintText,
           keyboardType: keyboardType,
           inputFormatters: inputFormatters,
+          readOnly: readOnly,
+          errorText: errorText,
+          maxLength: maxLength,
         ),
       ],
     );

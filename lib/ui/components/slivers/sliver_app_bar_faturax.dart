@@ -1,12 +1,9 @@
 import 'package:faturax_app/constants/constants_color.dart';
-import 'package:faturax_app/constants/constants_values.dart';
-import 'package:faturax_app/controller/home_view_model.dart';
-import 'package:faturax_app/viewmodels/date_picker.dart';
+import 'package:faturax_app/viewmodels/home_view_model.dart';
 import 'package:faturax_app/repository/user_repository.dart';
 import 'package:faturax_app/repository/product_repository.dart';
 import 'package:provider/provider.dart';
 import 'widgets/box_info_billings.dart';
-import 'widgets/box_resume_month.dart';
 import 'package:flutter/material.dart';
 
 class SliverAppBarFuturax extends StatelessWidget {
@@ -15,29 +12,40 @@ class SliverAppBarFuturax extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    return Consumer4<UserRepository, ProductRepository, DatePicker, UserView>(
-      builder: (context, userRepository, product, datePicker, userView, _) {
+    return Consumer3<UserRepository, ProductRepository, UserView>(
+      builder: (context, userRepository, product, userView, _) {
         return SliverAppBar(
           expandedHeight: 260,
           collapsedHeight: 115,
           pinned: true,
-          backgroundColor: AppColor.pupleColor,
+          backgroundColor: AppColor.purpleColor,
           title: Text('Olá, ${userRepository.username}'),
           actions: [
             AnimatedOpacity(
               opacity: userView.colapsed ? 1 : 0,
               duration: Duration(milliseconds: 450),
               child: Column(
-                mainAxisAlignment: .end,
-                crossAxisAlignment: .center,
+                mainAxisAlignment: .center,
                 children: [
-                  Text(
-                    userRepository.notVisibility
-                        ? '****'
-                        : product.convertCentInReais(product.price),
-                    style: TextStyle(color: AppColor.whiteColor, fontSize: 16),
+                  AnimatedContainer(
+                    padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
+                    duration: Duration(milliseconds: 550),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: AppColor.greenColor.withAlpha(133),
+                      ),
+                    ),
+                    child: Text(
+                      userRepository.notVisibility
+                          ? '****'
+                          : product.convertCentInReais(product.price),
+                      style: TextStyle(
+                        color: AppColor.greenColor,
+                        fontSize: 15,
+                      ),
+                    ),
                   ),
-                  BoxResumeMonth(month: showMonth),
                 ],
               ),
             ),
@@ -56,7 +64,7 @@ class SliverAppBarFuturax extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(10, 10, 10, 8),
               width: size.width,
               decoration: BoxDecoration(
-                color: AppColor.whiteColor.withAlpha(230),
+                color: AppColor.backgroundColorWhite,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(18),
                   topRight: Radius.circular(18),

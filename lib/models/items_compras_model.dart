@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ItemComprasModel {
+  final String id;
   final String name;
-  final String startDate;
+  final String? startDate;
   final bool isFixed;
   final int priceInt;
   final int parcelasParciais;
@@ -8,6 +11,7 @@ class ItemComprasModel {
   final int timeStamp;
 
   ItemComprasModel({
+    required this.id,
     required this.name,
     required this.startDate,
     required this.isFixed,
@@ -17,10 +21,14 @@ class ItemComprasModel {
     required this.timeStamp,
   });
 
-  factory ItemComprasModel.fromMapData({required Map<String, dynamic> data}) {
+  factory ItemComprasModel.fromQueryDocument({
+    required QueryDocumentSnapshot<Map<String, dynamic>> queryDocument,
+  }) {
+    final Map<String, dynamic> data = queryDocument.data();
     return ItemComprasModel(
+      id: queryDocument.id,
       name: data['name'] as String,
-      startDate: data['start_date'] as String,
+      startDate: data['start_date'] as String?,
       isFixed: data['isFixed'] as bool,
       priceInt: data['price_int'] as int,
       parcelasParciais: data['parcelas_parciais'] as int,
@@ -29,7 +37,8 @@ class ItemComprasModel {
     );
   }
 
-  int get lastParcelas => parcelasTotais - parcelasParciais;
+  bool get lastParcela => (parcelasTotais - parcelasParciais) == 1;
+  bool get pending => !isFixed && !isPago;
 
   bool get isPago {
     if (isFixed) return false;

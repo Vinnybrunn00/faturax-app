@@ -7,14 +7,10 @@ class UserView with ChangeNotifier {
   }
 
   final ScrollController _scrollController = ScrollController();
-
   ScrollController get scrollController => _scrollController;
 
   bool _colapsed = false;
-  String? _formatDate;
-
   bool get colapsed => _colapsed;
-  String? get formatDate => _formatDate;
 
   void _addListener() {
     _scrollController.addListener(() {
@@ -29,17 +25,13 @@ class UserView with ChangeNotifier {
 
   String showDataCompra(int timestamp) {
     final DateTime data = DateTime.fromMillisecondsSinceEpoch(timestamp);
-
     return DateFormat('dd/MM/yyyy').format(data);
   }
 
-  void dateViewer(int timestamp) {
+  String dateViewer(int timestamp) {
     final DateTime data = DateTime.fromMillisecondsSinceEpoch(timestamp);
-
     final String format = DateFormat('dd/MM/yyyy - HH:mm').format(data);
-
-    _formatDate = format;
-    notifyListeners();
+    return format;
   }
 
   void _update() {

@@ -15,8 +15,6 @@ class UserRepository with ChangeNotifier {
   DocumentReference<Map<String, dynamic>> get _users =>
       _firestore.collection('users').doc(_currentUser?.uid);
 
-  CollectionReference<Map<String, dynamic>> get items =>
-      _users.collection('items');
 
   bool _notVisibility = false;
   bool get notVisibility => _notVisibility;
@@ -32,20 +30,14 @@ class UserRepository with ChangeNotifier {
   bool get isOwner => _isOwner;
   String? get username => _username;
 
-  Future<void> _getUsername() async {
+  Future<void> _loadUserData() async {
     final DocumentSnapshot<Map<String, dynamic>> get = await _users.get();
 
     final Map<String, dynamic>? data = get.data();
 
     if (data != null) {
       _username = data['username'];
-      notifyListeners();
-    }
-  }
-
-  void _owner() {
-    if (_currentUser != null) {
-      _isOwner = _currentUser?.uid == 'OZVP2wz5mRXq1cnKf9g0wZSW3Tk2';
+      _isOwner = data['rules'];
       notifyListeners();
     }
   }
@@ -55,8 +47,7 @@ class UserRepository with ChangeNotifier {
   }
 
   void _update() async {
-    await _getUsername();
-    _owner();
+    await _loadUserData();
 
     if (!kDebugMode) {
       LogsServices(message: 'novo login', type: 'INFO', username: _username);

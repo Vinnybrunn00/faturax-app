@@ -22,7 +22,7 @@ class ProductRepository with ChangeNotifier {
   DocumentReference<Map<String, dynamic>> get _users =>
       _firestore.collection('users').doc(_currentUser?.uid);
 
-  CollectionReference<Map<String, dynamic>> get _items =>
+  CollectionReference<Map<String, dynamic>> get items =>
       _users.collection('items');
 
   int _price = 0;
@@ -59,7 +59,7 @@ class ProductRepository with ChangeNotifier {
   Future<String> deleteCompra(String id) async {
     changeLoading();
     try {
-      final DocumentReference<Map<String, dynamic>> docRef = _items.doc(id);
+      final DocumentReference<Map<String, dynamic>> docRef = items.doc(id);
 
       await docRef.delete();
 
@@ -73,9 +73,11 @@ class ProductRepository with ChangeNotifier {
       return 'Error ao deletar compra, tente novamente';
     } catch (_) {
       _loading = false;
+      stopLoading();
       return 'Error ao deletar compra, tente novamente';
     } finally {
       _loading = false;
+      stopLoading();
     }
   }
 
@@ -83,7 +85,7 @@ class ProductRepository with ChangeNotifier {
     if (_currentUser != null) {
       changeLoading();
 
-      await _items.doc(id).update({'parcelas_parciais': itemsModel.parcelas});
+      await items.doc(id).update({'parcelas_parciais': itemsModel.parcelas});
 
       changeLoading();
     }
@@ -101,7 +103,7 @@ class ProductRepository with ChangeNotifier {
 
     if (!fixed && (parcelas == null || parcelas <= 0)) return;
 
-    await _items.doc(itemId).set({
+    await items.doc(itemId).set({
       'name': product.name,
       'parcelas_parciais': 0,
       'parcelas_totais': fixed ? 0 : parcelas,
@@ -119,7 +121,7 @@ class ProductRepository with ChangeNotifier {
 
     if (_currentUser == null) return;
 
-    final snapshots = _items.snapshots();
+    final snapshots = items.snapshots();
 
     _itemsSubscription = snapshots.listen((onData) async {
       int temp = 0;

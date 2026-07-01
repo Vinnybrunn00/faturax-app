@@ -33,7 +33,7 @@ class UpdateApp {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         icon: Icon(
           Icons.system_update_rounded,
-          color: AppColor.pupleColor,
+          color: AppColor.purpleColor,
           size: 36,
         ),
         title: Text(
@@ -66,7 +66,7 @@ class UpdateApp {
           ),
           FilledButton(
             style: FilledButton.styleFrom(
-              backgroundColor: AppColor.pupleColor,
+              backgroundColor: AppColor.purpleColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),

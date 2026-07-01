@@ -16,7 +16,7 @@ class SettingsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: AppColor.whiteColor),
-        backgroundColor: AppColor.pupleColor,
+        backgroundColor: AppColor.purpleColor,
         title: Consumer<UserRepository>(
           builder: (context, user, _) {
             return Text(user.username.toString());

@@ -1,5 +1,3 @@
-
-
 import 'package:faturax_app/constants/constants_color.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +11,7 @@ class BoxCircularProgress extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: AppColor.pupleColor,
+            color: AppColor.purpleColor,
             borderRadius: BorderRadius.circular(12),
           ),
           child: CircularProgressIndicator(color: AppColor.whiteColor),

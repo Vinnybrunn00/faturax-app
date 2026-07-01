@@ -25,7 +25,7 @@ class ButtonLowBoxInfo extends StatelessWidget {
         child: Ink(
           padding: EdgeInsets.all(3),
           decoration: BoxDecoration(
-            color: AppColor.pupleColor,
+            color: AppColor.purpleColor,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Icon(icon, color: iconColor, size: size),

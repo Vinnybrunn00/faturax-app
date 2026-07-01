@@ -1,15 +1,15 @@
-import 'package:faturax_app/services/update_app.dart';
+import 'package:faturax_app/services/current_version.dart';
+import 'package:faturax_app/ui/pages/auth/auth_bubble_page.dart';
 import 'package:faturax_app/viewmodels/date_picker.dart';
 import 'package:faturax_app/repository/next_month_product.dart';
 import 'package:faturax_app/repository/product_repository.dart';
-import 'controller/home_view_model.dart';
+import 'viewmodels/home_view_model.dart';
 import 'controller/internet_tester_controller.dart';
 import 'viewmodels/auth_model.dart';
 import 'viewmodels/items_model.dart';
 import 'viewmodels/product_model.dart';
 import 'repository/ranking_repository.dart';
 import 'repository/user_repository.dart';
-import 'ui/pages/auth/auth_page.dart';
 import 'ui/pages/error_connection_page.dart';
 import 'ui/pages/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -49,6 +49,7 @@ class FaturaX extends StatelessWidget {
             ChangeNotifierProvider(create: (_) => ProductModel()),
             ChangeNotifierProvider(create: (_) => ProductRepository()),
             ChangeNotifierProvider(create: (_) => NextMonthProduct()),
+            ChangeNotifierProvider(create: (_) => CurrentVersion()),
           ],
           child: MaterialApp(
             builder: (context, child) {
@@ -72,14 +73,13 @@ class FaturaX extends StatelessWidget {
               textTheme: GoogleFonts.figtreeTextTheme(),
               colorScheme: .fromSeed(seedColor: Colors.deepPurple),
             ),
-            home: Consumer<InternetTesterController>(
-              builder: (context, data, _) {
-                UpdateApp(context: context);
-
-                if (!data.status) {
+            home: Consumer2<InternetTesterController, CurrentVersion>(
+              builder: (context, checkNet, currentVersion, _) {
+                currentVersion.checkCurrentVersion(context);
+                if (!checkNet.status) {
                   return ErrorConnectionPage();
                 }
-                return snapshot.hasData ? HomePage() : AuthPage();
+                return snapshot.hasData ? HomePage() : AuthBubblePage();
               },
             ),
           ),

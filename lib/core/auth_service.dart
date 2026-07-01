@@ -44,6 +44,7 @@ class AuthServices {
           'username': _username,
           'password': _password,
           'total': 0,
+          'rules': false,
         });
       }
       return;

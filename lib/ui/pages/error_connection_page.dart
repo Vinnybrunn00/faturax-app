@@ -1,4 +1,3 @@
-
 import 'package:faturax_app/constants/constants_color.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +16,7 @@ class ErrorConnectionPage extends StatelessWidget {
               Icon(
                 Icons.wifi_off_rounded,
                 size: 80,
-                color: AppColor.pupleColor.withAlpha(180),
+                color: AppColor.purpleColor.withAlpha(180),
               ),
               const SizedBox(height: 24),
               const Text(

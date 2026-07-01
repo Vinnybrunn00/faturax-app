@@ -21,7 +21,7 @@ class BoxInfoBillings extends StatelessWidget {
     }
 
     if (diference < 0) {
-      return Color(0xFFFF3300);
+      return AppColor.redColor;
     }
     return AppColor.whiteColor.withAlpha(200);
   }
@@ -46,9 +46,11 @@ class BoxInfoBillings extends StatelessWidget {
       height: size.height * .175,
       width: size.width * .95,
       decoration: BoxDecoration(
-        color: Color(0xFF333EBF),
+        color: AppColor.backgroundPurpleColor,
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [BoxShadow(blurRadius: 8, color: Color(0xFF333EBF))],
+        boxShadow: [
+          BoxShadow(blurRadius: 9, color: AppColor.backgroundPurpleColor),
+        ],
       ),
       child:
           Consumer4<
@@ -184,10 +186,10 @@ class BoxInfoBillings extends StatelessWidget {
                             'Crédito',
                             style: TextStyle(
                               color: AppColor.whiteColor,
-                              fontSize: 14,
+                              fontSize: 13,
                             ),
                           ),
-                          Image.asset('assets/icons/mastercard.png', width: 35),
+                          Image.asset('assets/icons/mastercard.png', width: 33),
                         ],
                       ),
                     ],

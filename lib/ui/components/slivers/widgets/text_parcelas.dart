@@ -11,7 +11,7 @@ class TextParcelas extends StatelessWidget {
     if (_itemComprasModel.parcelasTotais == 1) {
       return Text(
         'Pagamento único',
-        style: TextStyle(color: AppColor.cyanColor, fontSize: 11),
+        style: TextStyle(color: AppColor.cyanColor, fontSize: 12),
       );
     }
     return Text(
