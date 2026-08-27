@@ -203,6 +203,7 @@ class ModalNewCompras {
                                             );
                                             return;
                                           }
+
                                           product.changeLoading();
 
                                           await product.saveProduct(
@@ -263,10 +264,7 @@ class ModalNewCompras {
       ),
     ).then((_) {
       productModels.reset();
-      datePicker.setDate = DateFormat(
-        formatDatePt,
-        'pt_BR',
-      ).format(DateTime.now());
+      datePicker.reset();
     });
   }
 }

@@ -50,6 +50,7 @@ class FaturaX extends StatelessWidget {
             ChangeNotifierProvider(create: (_) => ProductRepository()),
             ChangeNotifierProvider(create: (_) => NextMonthProduct()),
             ChangeNotifierProvider(create: (_) => CurrentVersion()),
+            ChangeNotifierProvider(create: (_) => ChangePage()),
           ],
           child: MaterialApp(
             builder: (context, child) {

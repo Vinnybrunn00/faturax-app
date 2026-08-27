@@ -8,7 +8,10 @@ import 'package:intl/intl.dart';
 class DatePicker with ChangeNotifier {
   String? _date;
 
-  late DateTimeApp _dateTimeApp;
+  DateTimeApp _dateTimeApp = DateTimeApp(
+    dateTime: DateTime.now(),
+    datePicker: DateFormat(formatDatePt, 'pt_BR').format(DateTime.now()),
+  );
 
   DateTimeApp get dateTimeApp => _dateTimeApp;
 
@@ -46,5 +49,15 @@ class DatePicker with ChangeNotifier {
       _dateTimeApp = DateTimeApp(dateTime: showDataPicker, datePicker: _date);
       notifyListeners();
     }
+  }
+
+  void reset() {
+    final DateTime now = DateTime.now();
+    _date = null;
+    _dateTimeApp = DateTimeApp(
+      dateTime: now,
+      datePicker: DateFormat(formatDatePt, 'pt_BR').format(now),
+    );
+    notifyListeners();
   }
 }
