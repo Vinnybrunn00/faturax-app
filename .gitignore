@@ -52,3 +52,7 @@ ios/Runner/GoogleService-Info.plist
 lib/firebase_options.dart
 
 lib/service-account.json
+lib/scripts/__pycache__
+lib/scripts/venv
+android/build/reports/problems/*
+.commitlib/scripts/storage_app.dart
