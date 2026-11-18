@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:faturax_app/constants/constants_color.dart';
 import 'package:faturax_app/repository/ranking_repository.dart';
 import 'package:faturax_app/repository/product_repository.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
 class RankingPage extends StatelessWidget {

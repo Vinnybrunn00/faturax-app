@@ -10,7 +10,7 @@ import 'package:faturax_app/ui/components/slivers/sliver_app_bar_faturax.dart';
 import 'package:faturax_app/ui/components/slivers/sliver_box_error.dart';
 import 'package:faturax_app/ui/components/slivers/widgets/button_items_compras.dart';
 import 'package:faturax_app/ui/modals/modal_new_compras.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 

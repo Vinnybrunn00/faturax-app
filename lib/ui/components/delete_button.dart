@@ -4,7 +4,7 @@ import 'package:faturax_app/repository/product_repository.dart';
 import 'package:faturax_app/services/logs_services.dart';
 import 'package:faturax_app/ui/helpers/helpers.dart';
 import 'package:faturax_app/ui/widgets/box_circular_progress.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 import 'package:provider/provider.dart';
 

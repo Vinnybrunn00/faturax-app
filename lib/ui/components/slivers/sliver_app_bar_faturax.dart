@@ -5,7 +5,7 @@ import 'package:faturax_app/repository/user_repository.dart';
 import 'package:faturax_app/repository/product_repository.dart';
 import 'package:provider/provider.dart';
 import 'widgets/box_info_billings.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class SliverAppBarFuturax extends StatelessWidget {
   const SliverAppBarFuturax({super.key});

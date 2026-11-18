@@ -13,13 +13,12 @@ import 'repository/user_repository.dart';
 import 'ui/pages/error_connection_page.dart';
 import 'ui/pages/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -61,11 +60,7 @@ class FaturaX extends StatelessWidget {
                 child: child!,
               );
             },
-            localizationsDelegates: [
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
+            localizationsDelegates: GlobalMaterialLocalizations.delegates,
             supportedLocales: [Locale('pt', 'BR')],
             locale: Locale('pt', 'BR'),
             debugShowCheckedModeBanner: false,

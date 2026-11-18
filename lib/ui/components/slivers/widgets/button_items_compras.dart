@@ -9,7 +9,7 @@ import 'package:faturax_app/repository/next_month_product.dart';
 import 'package:faturax_app/repository/product_repository.dart';
 import 'package:faturax_app/ui/components/slivers/widgets/text_parcelas.dart';
 import 'package:faturax_app/ui/pages/items/items_page.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
 class ButtonItemsCompras extends StatelessWidget {

@@ -3,7 +3,7 @@ import 'package:faturax_app/controller/settings_manager.dart';
 import 'package:faturax_app/repository/product_repository.dart';
 import 'package:faturax_app/ui/widgets/box_circular_progress.dart';
 import 'package:faturax_app/repository/user_repository.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
 class SettingsPage extends StatelessWidget {

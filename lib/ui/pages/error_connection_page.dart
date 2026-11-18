@@ -1,5 +1,5 @@
 import 'package:faturax_app/constants/constants_color.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class ErrorConnectionPage extends StatelessWidget {
   const ErrorConnectionPage({super.key});

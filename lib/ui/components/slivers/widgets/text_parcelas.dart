@@ -1,6 +1,6 @@
 import 'package:faturax_app/constants/constants_color.dart';
 import 'package:faturax_app/models/items_compras_model.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class TextParcelas extends StatelessWidget {
   final ItemComprasModel _itemComprasModel;

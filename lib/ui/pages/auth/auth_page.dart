@@ -9,7 +9,7 @@ import 'package:faturax_app/ui/pages/home_page.dart';
 import 'package:faturax_app/ui/widgets/event_button.dart';
 import 'package:faturax_app/ui/widgets/input_text.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:provider/provider.dart';
 

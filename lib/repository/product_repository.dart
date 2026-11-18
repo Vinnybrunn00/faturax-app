@@ -5,7 +5,7 @@ import 'package:faturax_app/viewmodels/date_time_app.dart';
 import 'package:faturax_app/viewmodels/items_model.dart';
 import 'package:faturax_app/viewmodels/product_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:intl/intl.dart';
 
 class ProductRepository with ChangeNotifier {

@@ -8,7 +8,7 @@ import 'package:faturax_app/ui/pages/settings_page.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 import 'package:provider/provider.dart';
 import 'button_low_box_info.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class BoxInfoBillings extends StatelessWidget {
   BoxInfoBillings({super.key});

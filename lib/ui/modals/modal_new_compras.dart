@@ -8,7 +8,7 @@ import 'package:faturax_app/viewmodels/date_picker.dart';
 import 'package:faturax_app/viewmodels/product_model.dart';
 import 'package:faturax_app/repository/product_repository.dart';
 import 'package:faturax_app/ui/components/inputs/input_compras.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';

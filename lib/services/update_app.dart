@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:faturax_app/constants/constants_color.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:shorebird_code_push/shorebird_code_push.dart';
 
 class UpdateApp {
