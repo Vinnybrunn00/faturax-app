@@ -48,9 +48,9 @@ class ButtonItemsCompras extends StatelessWidget {
 
             return AnimatedContainer(
               duration: Duration(milliseconds: 650),
-              margin: EdgeInsets.only(left: 8, top: 8, right: 8),
+              margin: EdgeInsets.only(left: 12, top: 10, right: 12),
               child: InkWell(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(14),
                 onTap: _itemsComprasModel.isFixed
                     ? null
                     : () async => await Navigator.of(context).push(
@@ -59,15 +59,22 @@ class ButtonItemsCompras extends StatelessWidget {
                         ),
                       ),
                 child: Ink(
-                  padding: EdgeInsets.all(13),
+                  padding: EdgeInsets.fromLTRB(14, 12, 14, 12),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppColor.borderColor, width: 1.5),
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: AppColor.borderColor),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColor.blackBlue.withAlpha(8),
+                        blurRadius: 8,
+                        offset: Offset(0, 2),
+                      ),
+                    ],
                   ),
                   child: Column(
                     mainAxisAlignment: .center,
-                    spacing: 6,
+                    spacing: 7,
                     children: [
                       Row(
                         mainAxisAlignment: .spaceBetween,
@@ -81,21 +88,26 @@ class ButtonItemsCompras extends StatelessWidget {
                                 ),
                                 style: TextStyle(
                                   color: _itemsComprasModel.isPago
-                                      ? AppColor.greyColor.withAlpha(90)
+                                      ? AppColor.greyColor.withAlpha(110)
                                       : AppColor.greyColor,
                                   fontSize: 12,
+                                  fontWeight: .w500,
                                 ),
                               ),
-                              Text(
-                                '|',
-                                style: TextStyle(color: AppColor.greyColor),
+                              Container(
+                                height: 3,
+                                width: 3,
+                                decoration: BoxDecoration(
+                                  color: AppColor.greyColor.withAlpha(120),
+                                  shape: BoxShape.circle,
+                                ),
                               ),
 
                               if (_itemsComprasModel.isFixed)
                                 BoxStatusCompras(
                                   title: 'Assinatura',
-                                  bgColor: AppColor.cyanColor.withAlpha(30),
-                                  textColor: AppColor.cyanColor,
+                                  bgColor: Color(0xFFE0F2FE),
+                                  textColor: Color(0xFF0369A1),
                                 ),
 
                               if (_itemsComprasModel.isPago)
@@ -108,8 +120,8 @@ class ButtonItemsCompras extends StatelessWidget {
                               if (_itemsComprasModel.pending)
                                 BoxStatusCompras(
                                   title: 'Em Aberto',
-                                  bgColor: Color(0xFFFFEDD5),
-                                  textColor: Color(0xFFEA580C),
+                                  bgColor: Color(0xFFFFF1E0),
+                                  textColor: Color(0xFFC2410C),
                                 ),
                             ],
                           ),
@@ -145,9 +157,9 @@ class ButtonItemsCompras extends StatelessWidget {
                                         color: _itemsComprasModel.isPago
                                             ? AppColor.blackBlue.withAlpha(130)
                                             : AppColor.blackBlue,
-                                        fontSize: 16,
+                                        fontSize: 15.5,
                                         fontWeight: FontWeight.w600,
-                                        overflow: .fade,
+                                        overflow: .ellipsis,
                                       ),
                                     ),
                                   ),
@@ -166,8 +178,9 @@ class ButtonItemsCompras extends StatelessWidget {
                               color: _itemsComprasModel.isPago
                                   ? AppColor.blackBlue.withAlpha(130)
                                   : AppColor.blackBlue,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
+                              fontSize: 15.5,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: -0.2,
                             ),
                           ),
                         ],
