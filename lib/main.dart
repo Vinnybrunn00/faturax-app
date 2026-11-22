@@ -1,3 +1,4 @@
+import 'package:faturax_app/constants/constants_color.dart';
 import 'package:faturax_app/services/current_version.dart';
 import 'package:faturax_app/ui/pages/auth/auth_bubble_page.dart';
 import 'package:faturax_app/viewmodels/date_picker.dart';
@@ -67,7 +68,24 @@ class FaturaX extends StatelessWidget {
             title: 'FaturaX',
             theme: ThemeData(
               textTheme: GoogleFonts.figtreeTextTheme(),
-              colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+              colorScheme: .fromSeed(
+                seedColor: AppColor.purpleColor,
+                primary: AppColor.purpleColor,
+              ),
+              scaffoldBackgroundColor: AppColor.backgroundColorWhite,
+              appBarTheme: AppBarTheme(
+                elevation: 0,
+                scrolledUnderElevation: 0,
+                surfaceTintColor: Colors.transparent,
+              ),
+              progressIndicatorTheme: ProgressIndicatorThemeData(
+                color: AppColor.purpleColor,
+              ),
+              dividerTheme: DividerThemeData(
+                color: AppColor.borderColor,
+                thickness: 1,
+                space: 1,
+              ),
             ),
             home: Consumer2<InternetTesterController, CurrentVersion>(
               builder: (context, checkNet, currentVersion, _) {
