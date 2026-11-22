@@ -18,15 +18,16 @@ class ButtonLowBoxInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      borderRadius: BorderRadius.circular(12),
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(10),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(10),
         child: Ink(
-          padding: EdgeInsets.all(3),
+          padding: EdgeInsets.all(6),
           decoration: BoxDecoration(
-            color: AppColor.purpleColor,
-            borderRadius: BorderRadius.circular(12),
+            color: AppColor.whiteColor.withAlpha(30),
+            borderRadius: BorderRadius.circular(10),
           ),
           child: Icon(icon, color: iconColor, size: size),
         ),
