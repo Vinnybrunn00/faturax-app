@@ -15,7 +15,7 @@ class ProductRepository with ChangeNotifier {
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  StreamSubscription? _itemsSubscription;
+  StreamSubscription? itemsSubscription;
 
   User? get _currentUser => FirebaseAuth.instance.currentUser;
 
@@ -117,13 +117,13 @@ class ProductRepository with ChangeNotifier {
   }
 
   Future<void> changePriceTotal({bool? isAfter}) async {
-    await _itemsSubscription?.cancel();
+    await itemsSubscription?.cancel();
 
     if (_currentUser == null) return;
 
     final snapshots = items.snapshots();
 
-    _itemsSubscription = snapshots.listen((onData) async {
+    itemsSubscription = snapshots.listen((onData) async {
       int temp = 0;
 
       for (int i = 0; i < onData.docs.length; i++) {
@@ -197,7 +197,7 @@ class ProductRepository with ChangeNotifier {
 
   @override
   void dispose() {
-    _itemsSubscription?.cancel();
+    itemsSubscription?.cancel();
     super.dispose();
   }
 }
