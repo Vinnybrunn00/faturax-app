@@ -1,3 +1,4 @@
+import 'package:faturax_app/constants/constants_color.dart';
 import 'package:faturax_app/ui/widgets/input_text.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
@@ -21,17 +22,25 @@ class InputCompras extends StatelessWidget {
     this.keyboardType,
     this.inputFormatters,
     this.enabled,
-    this.readOnly = false, this.errorText, this.maxLength,
-    
+    this.readOnly = false,
+    this.errorText,
+    this.maxLength,
   });
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      spacing: 5,
+      spacing: 6,
       crossAxisAlignment: .start,
       children: [
-        Text(title, style: TextStyle(fontSize: 14, fontWeight: .w600)),
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: 13,
+            fontWeight: .w600,
+            color: AppColor.blackBlue.withAlpha(210),
+          ),
+        ),
         InputText(
           enabled: enabled,
           onChanged: onChanged,
