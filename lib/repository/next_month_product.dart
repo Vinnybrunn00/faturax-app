@@ -11,4 +11,10 @@ class NextMonthProduct extends ProductRepository {
     await changePriceTotal(isAfter: true);
     notifyListeners();
   }
+
+  @override
+  void dispose() {
+    itemsSubscription?.cancel();
+    super.dispose();
+  }
 }
